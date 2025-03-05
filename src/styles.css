@@ -1,0 +1,336 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary: #6200ee;
+  --primary-dark: #3700b3;
+  --secondary: #03dac6;
+  --background: #121212;
+  --surface: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --error: #cf6679;
+  --success: #00c853;
+  --x-color: #ff4081;
+  --o-color: #03dac6;
+  --board-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  --button-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem;
+}
+
+h1 {
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  max-width: 100%;
+}
+
+.game-board {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.status {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--surface);
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  box-shadow: var(--button-shadow);
+  color: var(--text-primary);
+  width: fit-content;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.winner {
+  background: linear-gradient(135deg, var(--success), var(--primary-dark));
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Board container with fixed dimensions */
+.board-container {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-gap: 10px;
+  background-color: var(--surface);
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: var(--board-shadow);
+  width: 100%;
+  height: 100%;
+}
+
+.square {
+  border: none;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  color: var(--text-primary);
+}
+
+/* Use ::after for content to prevent layout shifts */
+.square.x::after,
+.square.o::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.square.x::after {
+  content: "X";
+  color: var(--x-color);
+}
+
+.square.o::after {
+  content: "O";
+  color: var(--o-color);
+}
+
+.square:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.square:active {
+  transform: scale(0.95);
+}
+
+.square.x,
+.square.o {
+  color: transparent; /* Hide the text content */
+}
+
+.square.x::before,
+.square.o::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: currentColor;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.game-info {
+  background-color: var(--surface);
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 100%;
+  max-height: 40vh;
+  overflow-y: auto;
+  box-shadow: var(--board-shadow);
+}
+
+.game-info h2 {
+  color: var(--secondary);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.game-info ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 0;
+}
+
+.game-info li {
+  margin: 0;
+}
+
+.game-info button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--button-shadow);
+}
+
+.game-info button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.game-info button:active {
+  transform: translateY(0);
+}
+
+.game-info button.current {
+  background-color: var(--secondary);
+  color: var(--background);
+}
+
+.restart-btn {
+  background-color: var(--error);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--button-shadow);
+  margin-top: 1rem;
+}
+
+.restart-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.restart-btn:active {
+  transform: translateY(0);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-board,
+.game-info {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes pop {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.square.x::after,
+.square.o::after {
+  animation: pop 0.3s ease-out forwards;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .game {
+    flex-direction: row;
+    align-items: flex-start;
+    max-width: 100%;
+  }
+
+  .game-board {
+    flex: 1;
+  }
+
+  .game-info {
+    flex: 0.8;
+    margin-left: 2rem;
+    margin-top: 0;
+    max-height: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .board-container {
+    width: 280px;
+    height: 280px;
+  }
+
+  .game-info ol {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .container {
+    padding: 0.5rem;
+  }
+
+  .status {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
