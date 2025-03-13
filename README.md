@@ -2,6 +2,15 @@
 
 A modern, interactive implementation of the classic Tic Tac Toe game built with React.
 
+<p align="center">
+    <img src="https://github.com/ngolshahi/tictactoe-game/blob/main/public/image1.png" alt="Startup Page" height="500">
+    <img src="https://github.com/ngolshahi/tictactoe-game/blob/main/public/image2.png" alt="Gameplay" height="500">
+    <img src="https://github.com/ngolshahi/tictactoe-game/blob/main/public/image3.png" alt="Winning Page" height="500">
+</p>
+
+
+
+
 ## Features
 
 - 🎮 Classic Tic Tac Toe gameplay
