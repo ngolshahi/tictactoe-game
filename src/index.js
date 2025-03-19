@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef } from "react";
-import { ThemeProvider } from "./ThemeContext";
-import Game from "./Game";
+import React, { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./styles.css";
 
-export default function App() {
-  return (
-    <ThemeProvider>
-      <Game />
-    </ThemeProvider>
-  );
-}
+import App from "./App";
+
+const root = createRoot(document.getElementById("root"));
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
