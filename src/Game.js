@@ -7,7 +7,7 @@ import ConfettiEffect from "./ConfettiEffect";
 import { calculateWinner } from "./gameUtils";
 
 export default function Game() {
-  const { theme, themeOptions, setTheme } = useTheme();
+  const { theme, currentTheme, themeOptions, setTheme } = useTheme();
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -225,27 +225,26 @@ export default function Game() {
   return (
     <div className="container" style={{ color: theme.textColor }}>
       <h1 className="game-title">Tic Tac Toe Deluxe</h1>
-      
+
       <div className="game-options">
         <div className="option-group">
           <label htmlFor="theme-select">Theme:</label>
-          <select 
+          <select
             id="theme-select"
-            value={theme.name}
+            value={currentTheme}
             onChange={(e) => setTheme(e.target.value)}
             style={{ backgroundColor: theme.boardBg, color: theme.textColor }}
           >
-            {themeOptions.map(option => (
+            {themeOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
             ))}
           </select>
         </div>
-        
         <div className="option-group">
           <label htmlFor="board-size">Board Size:</label>
-          <select 
+          <select
             id="board-size"
             value={boardSize}
             onChange={(e) => handleBoardSizeChange(parseInt(e.target.value))}
@@ -256,10 +255,9 @@ export default function Game() {
             <option value={5}>5×5</option>
           </select>
         </div>
-        
         <div className="option-group">
           <label htmlFor="game-mode">Game Mode:</label>
-          <select 
+          <select
             id="game-mode"
             value={gameMode}
             onChange={(e) => handleGameModeChange(e.target.value)}
@@ -270,11 +268,11 @@ export default function Game() {
           </select>
         </div>
       </div>
-      
+
       <div className="player-names">
         <div className="player-input">
           <label htmlFor="player-x">Player X:</label>
-          <input 
+          <input
             id="player-x"
             type="text"
             value={playerNames.X}
@@ -284,7 +282,7 @@ export default function Game() {
         </div>
         <div className="player-input">
           <label htmlFor="player-o">Player O:</label>
-          <input 
+          <input
             id="player-o"
             type="text"
             value={playerNames.O}
@@ -293,21 +291,27 @@ export default function Game() {
           />
         </div>
       </div>
-      
+
       {gameMode === "timeAttack" && (
-        <div className="timer" style={{ color: timeLeft <= 3 ? theme.xColor : theme.textColor }}>
+        <div
+          className="timer"
+          style={{ color: timeLeft <= 3 ? theme.xColor : theme.textColor }}
+        >
           Time Left: {timeLeft}s
         </div>
       )}
-      
+
       <div className="game">
         <div className="game-board">
-          <div className={`status ${winner ? "winner" : ""}`} style={{ 
-            color: winner ? theme.winColor : theme.textColor 
-          }}>
+          <div
+            className={`status ${winner ? "winner" : ""}`}
+            style={{
+              color: winner ? theme.winColor : theme.textColor,
+            }}
+          >
             {status}
           </div>
-          
+
           <div className="board-container">
             <Board
               size={boardSize}
@@ -319,28 +323,24 @@ export default function Game() {
               theme={theme}
             />
           </div>
-          
-          <button 
-            className="restart-btn" 
+
+          <button
+            className="restart-btn"
             onClick={handleRestart}
             style={{ backgroundColor: theme.boardBorder, color: "#fff" }}
           >
             Restart Game
           </button>
         </div>
-        
+
         <div className="game-info" style={{ backgroundColor: theme.boardBg }}>
           <h2>Game History</h2>
           <ol>{moves}</ol>
         </div>
       </div>
-      
-      <ScoreBoard 
-        scores={scores} 
-        playerNames={playerNames}
-        theme={theme}
-      />
-      
+
+      <ScoreBoard scores={scores} playerNames={playerNames} theme={theme} />
+
       {showConfetti && <ConfettiEffect />}
     </div>
   );
