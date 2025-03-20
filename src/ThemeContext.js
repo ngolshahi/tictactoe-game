@@ -50,6 +50,7 @@ const themes = {
 
 const ThemeContext = createContext(null);
 
+// In ThemeContext.js
 export function ThemeProvider({ children }) {
   const [currentTheme, setCurrentTheme] = useState("classic");
   
@@ -61,7 +62,8 @@ export function ThemeProvider({ children }) {
 
   return (
     <ThemeContext.Provider value={{ 
-      theme: themes[currentTheme], 
+      theme: themes[currentTheme],
+      currentTheme, // Add this to expose the current theme key
       themeOptions: Object.keys(themes).map(key => ({ value: key, label: themes[key].name })),
       setTheme: setCurrentTheme 
     }}>
