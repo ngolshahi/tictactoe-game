@@ -1,3 +1,4 @@
+// Board.js
 import { useState, useEffect } from "react";
 import Square from "./Square";
 
@@ -13,45 +14,38 @@ export default function Board({ size = 3, xIsNext, squares, onPlay, isAnimating,
 
   // Create a board with dynamic size
   const renderBoard = () => {
-    const boardRows = [];
+    const board = [];
     
     for (let row = 0; row < size; row++) {
       const rowSquares = [];
       for (let col = 0; col < size; col++) {
         const i = row * size + col;
-        rowSquares.push(renderSquare(i));
+        rowSquares.push(
+          <Square
+            key={i}
+            value={squares[i]}
+            onSquareClick={() => handleClick(i)}
+            className={`square ${squares[i]?.toLowerCase() || ""}`}
+            theme={theme}
+            isAnimating={isAnimating && squares[i]}
+          />
+        );
       }
-      boardRows.push(
+      board.push(
         <div key={row} className="board-row">
           {rowSquares}
         </div>
       );
     }
     
-    return boardRows;
-  };
-
-  const renderSquare = (i) => {
-    const value = squares[i];
-    const squareClass = `square ${value?.toLowerCase() || ""}`;
-    
-    return (
-      <Square
-        key={i}
-        value={value}
-        onSquareClick={() => handleClick(i)}
-        className={squareClass}
-        theme={theme}
-        isAnimating={isAnimating && value}
-      />
-    );
+    return board;
   };
 
   return (
     <div 
       className="board" 
+      data-size={size}
       style={{ 
-        gridTemplateColumns: `repeat(${size}, 1fr)`,
         backgroundColor: theme.boardBg,
         borderColor: theme.boardBorder
       }}
